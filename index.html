@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="style/normalize.css">
+
+    <title>Knight Rider</title>
+
+    <style>
+        main{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: black;
+        }
+        #box{
+            width: 700px;
+            height: 100px;
+            border-top: 2px solid #7d0707;
+            border-bottom: 2px solid #7d0707;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .light-box{
+            width: 100px;
+            height: 50px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        #btn-start{
+            position: absolute;
+            top: 450px;
+            left: 570px;
+            width: 100px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        #btn-stop{
+            position: absolute;
+            top: 450px;
+            left: 700px;
+            width: 100px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .btn:hover{
+            background: deepskyblue;
+        }
+
+    </style>
+</head>
+<body>
+
+<main>
+    <section id="box">
+        <div class="light-box"></div>
+        <div class="light-box"></div>
+        <div class="light-box"></div>
+        <div class="light-box"></div>
+        <div class="light-box"></div>
+        <div class="light-box"></div>
+    </section>
+
+    <button type="button" class="btn" id="btn-start">Start</button>
+    <button type="button" class="btn" id="btn-stop">Stop</button>
+
+</main>
+
+
+<!------------------------------------->
+<script src="lib/jquery-3.7.1.min.js"></script>
+
+<script>
+    const light_count = 6;
+    let current_light = -1;
+    let direction = "RIGHT"; //"RIGHT", "LEFT"
+    let intervalId = null;
+
+    updateLight = () => {
+        if (direction === "RIGHT"){
+
+            current_light++;
+            $(".light-box").css("background","white");
+
+            $(".light-box").eq(current_light).css("background","#9c0012");
+            $(".light-box").eq(current_light-1).css("background","#d16d6d");
+
+            if (current_light === light_count-1){
+                direction = "LEFT";
+            }
+
+        }else{
+            current_light--;
+            $(".light-box").css("background","white");
+
+            $(".light-box").eq(current_light).css("background","#9c0012");
+            $(".light-box").eq(current_light+1).css("background","#d16d6d");
+
+            if (current_light === 0){
+                direction = "RIGHT";
+            }
+        }
+    }
+
+    /*Buttons*/
+    $('#btn-start').on('click',function (){
+        intervalId = setInterval(updateLight,100);
+    });
+
+    $('#btn-stop').on('click',function (){
+        clearInterval(intervalId);
+    });
+
+</script>
+
+</body>
+</html>
